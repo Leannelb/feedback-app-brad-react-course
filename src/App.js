@@ -1,9 +1,8 @@
-import React, { Fragment, useState } from "react";
-import { v4 as uuidv4 } from 'uuid';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { FeedbackData } from "./data/Feedbackdata";
+import React from "react";
+import { BrowserRouter as Router, Route, Routes, NavLink } from 'react-router-dom';
+import Card from "./shared/Card";
+import { FeedbackProvider } from "./context/FeedbackContext";
 import Page1 from "./component/Page1";
-import Page2 from "./component/Page2";
 import PropTypes from 'prop-types'; // shortcut is impt
 import FeedbackForm from "./component/FeedbackForm";
 import Header from "./component/Header";
@@ -14,40 +13,37 @@ import AboutIconLink from "./component/AboutIconLink";
 
 
 function App() {
-    const [feedback, setFeedback] = useState(FeedbackData);
-
-    const deleteFeedback = (id) => {
-        if (window.confirm('Are you sure you want to delete?')) {
-            setFeedback(feedback.filter((item) => item.id !== id))
-        }
-        console.log('app ', id);
-    }
-
-    const addFeedback = (newFeedback) => {
-        newFeedback.id = uuidv4();
-        setFeedback([newFeedback, ...feedback])
-        console.log('app js newFeedback ', newFeedback);
-    }
 
     return (
-        <Router>
-            <Header />
-            <div className='container'>
-                <Routes>
-                    <Route exact path='/' element={
-                        <>
-                            <FeedbackForm handleAdd={addFeedback} />
-                            <FeedbackStats feedbackItems={feedback} />
-                            <FeedbackList feedback={feedback} handleDelete={deleteFeedback} />
-                        </>
-                    }>
-                    </Route>
-                    <Route path='/about' element={<About/>} />
-                </Routes>
+        <FeedbackProvider>
+            <Router>
+                <Header />
+                <div className='container'>
+                    <Routes>
+                        <Route exact path='/' element={
+                            <>
+                                <FeedbackForm />
+                                <FeedbackStats />
+                                <FeedbackList />
+                            </>
+                        }>
+                        </Route>
+                        <Route path='/about' element={<About />} />
+                        <Route path='/post/*' element={<Page1 />} />
+                    </Routes>
 
-                <AboutIconLink/>
-            </div>
-        </Router>
+                    <Card>
+                        <NavLink to='/' activeclassname='active'>
+                            Home
+                        </NavLink>
+                        <NavLink to='/about' activeclassname='active'>
+                            About
+                        </NavLink>
+                    </Card>
+                    <AboutIconLink />
+                </div>
+            </Router>
+        </FeedbackProvider>
     )
 }
 
