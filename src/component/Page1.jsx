@@ -1,11 +1,6 @@
-import { Navigate, useNavigate, Routes, Route  } from 'react-router-dom';
+import { useNavigate, Routes, Route  } from 'react-router-dom';
 
 function Page1() {
-    // const status = 200;
-
-    // if (status === 404) {
-    //     return <Navigate to='/notfound' />    
-    // }
 
     const navigate = useNavigate();
 
