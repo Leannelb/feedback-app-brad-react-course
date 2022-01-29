@@ -1,7 +1,14 @@
 import React from 'react';
+import UserResults from '../components/users/UserResults';
+import UserSearch from '../components/UserSearch';
 
 function Home() {
-  return <div>Home</div>;
+    return (
+        <div>
+            <UserSearch/>
+            <UserResults />
+        </div>
+  )
 }
 
 export default Home;
